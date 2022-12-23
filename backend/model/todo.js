@@ -4,19 +4,19 @@ const todoSchema = new mongoose.Schema({
   title: {
     type: String,
     default: undefined,
-    required: [true, 'Give your todo a title'],
+    unique: true,
+    required: [true, 'Title is required'],
     lowercase: true,
     trim: true,
   },
 
   date: {
-    type: Date,
-    default: new Date(),
+    type: String,
+    default: new Date().toString(),
   },
 
   tasks: {
     type: [String],
-    default: undefined,
   },
 });
 

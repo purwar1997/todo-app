@@ -16,22 +16,173 @@ exports.getTodos = async (req, res) => {
   } catch (err) {
     res.status(401).json({
       success: false,
-      message: err.message,
+      message: 'Unable to fetch todos',
     });
   }
 };
 
 exports.createTodo = async (req, res) => {
   try {
-  } catch (err) {}
+    const { title } = req.body;
+
+    if (!title) {
+      throw new Error('Title is required');
+    }
+
+    const todo = await Todo.create({ title });
+
+    res.status(201).json({
+      success: true,
+      message: 'A new todo has been created',
+      todo,
+    });
+  } catch (err) {
+    res.status(401).json({
+      success: false,
+      message: err.message,
+    });
+  }
 };
 
-exports.getTodo = async (req, res) => {};
+exports.getTodo = async (req, res) => {
+  try {
+    const todo = await Todo.findById(req.params.todoId);
 
-exports.deleteTodo = async (req, res) => {};
+    res.status(201).json({
+      success: true,
+      message: 'Todo has been successfully fetched',
+      todo,
+    });
+  } catch (err) {
+    res.status(401).json({
+      success: false,
+      message: 'Unable to fetch todo',
+    });
+  }
+};
 
-exports.createTask = async (req, res) => {};
+exports.deleteTodo = async (req, res) => {
+  try {
+    await Todo.findByIdAndDelete(req.params.todoId);
 
-exports.editTask = async (req, res) => {};
+    res.status(201).json({
+      success: true,
+      message: 'Todo has been deleted',
+    });
+  } catch (err) {
+    res.status(401).json({
+      success: false,
+      message: 'Unable to delete todo',
+    });
+  }
+};
 
-exports.deleteTask = async (req, res) => {};
+exports.addTask = async (req, res) => {
+  try {
+    let { newTask } = req.body;
+
+    if (!newTask) {
+      throw new Error('Task is required');
+    }
+
+    newTask = newTask.toLowerCase();
+    let todo = await Todo.findById(req.params.todoId);
+
+    if (todo.tasks.some(task => task === newTask)) {
+      throw new Error('This task already exists. Please enter a new task.');
+    }
+
+    todo.tasks.push(newTask);
+    todo = await todo.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'A new task has been added to the list',
+      todo,
+    });
+  } catch (err) {
+    res.status(401).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+exports.editTask = async (req, res) => {
+  try {
+    let { task, newTask } = req.body;
+
+    if (!newTask) {
+      throw new Error('Task is required');
+    }
+
+    newTask = newTask.toLowerCase();
+    let todo = await Todo.findById(req.params.todoId);
+
+    if (todo.tasks.some(task => task === newTask)) {
+      throw new Error('This task already exists. Please enter a new task');
+    }
+
+    const index = todo.tasks.indexOf(task);
+    todo.tasks.splice(index, 1, newTask);
+    todo = await todo.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Task has been successfully edited',
+      todo,
+    });
+  } catch (err) {
+    res.status(401).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+exports.deleteTask = async (req, res) => {
+  try {
+    let { task } = req.body;
+    let todo = await Todo.findById(req.params.todoId);
+
+    const index = todo.tasks.indexOf(task);
+    todo.tasks.splice(index, 1);
+    todo = await todo.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Task has been successfully deleted',
+      todo,
+    });
+  } catch (err) {
+    res.status(401).json({
+      success: false,
+      message: 'Unable to delete task',
+    });
+  }
+};
+
+exports.editTitle = async (req, res) => {
+  try {
+    let { newTitle } = req.body;
+
+    if (!newTitle) {
+      throw new Error('Title is required');
+    }
+
+    let todo = await Todo.findById(req.params.todoId);
+    todo.title = newTitle;
+    todo = await todo.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Title has been successfully updated',
+      todo,
+    });
+  } catch (err) {
+    res.status(401).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
