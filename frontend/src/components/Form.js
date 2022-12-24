@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import axios from 'axios';
-import TodoList from './TodoList';
 
 function Form() {
   const [title, setTitle] = useState('');
@@ -50,8 +49,6 @@ function Form() {
           Submit
         </button>
       </form>
-
-      <TodoList />
     </>
   );
 }
