@@ -75,35 +75,35 @@ function Todo({ todo, setTodo, capitalize }) {
               </tr>
             </thead>
 
-            <tbody>
-              {todo.tasks.length ? (
+            {todo.tasks.length ? (
+              <tbody>
                 <tr className="border">
                   <th className="px-6 py-2 text-left font-medium">No.</th>
                   <th className="px-6 py-2 text-left font-medium">Tasks</th>
                   <th className="px-6 py-2 text-left font-medium">Edit</th>
                   <th className="px-6 py-2 text-left font-medium text-center">Delete</th>
                 </tr>
-              ) : (
-                ''
-              )}
 
-              {todo.tasks.map((task, index) => (
-                <tr className="border">
-                  <td className="px-6 py-2.5">{index + 1}</td>
-                  <td className="px-6 py-2.5">{capitalize(task)}</td>
-                  <td className="px-6 py-2.5">
-                    <button className="text-green-500" onClick={() => editTask(todo._id, task)}>
-                      Edit
-                    </button>
-                  </td>
-                  <td className="px-6 py-2.5 text-center">
-                    <button className="text-red-500" onClick={() => deleteTask(todo._id, task)}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+                {todo.tasks.map((task, index) => (
+                  <tr className="border">
+                    <td className="px-6 py-2.5">{index + 1}</td>
+                    <td className="px-6 py-2.5">{capitalize(task)}</td>
+                    <td className="px-6 py-2.5">
+                      <button className="text-green-500" onClick={() => editTask(todo._id, task)}>
+                        Edit
+                      </button>
+                    </td>
+                    <td className="px-6 py-2.5 text-center">
+                      <button className="text-red-500" onClick={() => deleteTask(todo._id, task)}>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            ) : (
+              ''
+            )}
 
             <tfoot>
               <tr className="border">
