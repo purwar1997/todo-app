@@ -16,7 +16,7 @@ exports.getTodos = async (req, res) => {
   } catch (err) {
     res.status(401).json({
       success: false,
-      message: 'Unable to fetch todos',
+      message: 'Cannot fetch todos',
     });
   }
 };
@@ -29,12 +29,12 @@ exports.createTodo = async (req, res) => {
       throw new Error('Title is required');
     }
 
-    const todo = await Todo.create({ title });
+    const newTodo = await Todo.create({ title });
 
     res.status(201).json({
       success: true,
-      message: 'A new todo has been created',
-      todo,
+      message: 'A new todo has been successfully created',
+      newTodo,
     });
   } catch (err) {
     res.status(401).json({
@@ -56,7 +56,7 @@ exports.getTodo = async (req, res) => {
   } catch (err) {
     res.status(401).json({
       success: false,
-      message: 'Unable to fetch todo',
+      message: 'Cannot fetch todo',
     });
   }
 };
@@ -67,12 +67,12 @@ exports.deleteTodo = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: 'Todo has been deleted',
+      message: 'Todo has been successfully deleted',
     });
   } catch (err) {
     res.status(401).json({
       success: false,
-      message: 'Unable to delete todo',
+      message: 'Cannot delete todo',
     });
   }
 };
@@ -97,7 +97,7 @@ exports.addTask = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: 'A new task has been added to the list',
+      message: 'Task added successfully',
       todo,
     });
   } catch (err) {
@@ -129,7 +129,7 @@ exports.editTask = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: 'Task has been successfully edited',
+      message: 'Task updated successfully',
       todo,
     });
   } catch (err) {
@@ -151,13 +151,13 @@ exports.deleteTask = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: 'Task has been successfully deleted',
+      message: 'Task deleted successfully',
       todo,
     });
   } catch (err) {
     res.status(401).json({
       success: false,
-      message: 'Unable to delete task',
+      message: 'Cannot delete task',
     });
   }
 };

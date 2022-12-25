@@ -32,6 +32,7 @@ function Form() {
           <label className="text-lg" htmlFor="title">
             Enter title for a new todo
           </label>
+
           <input
             className="w-96 bg-[#f6f6f6] border rounded px-4 py-2.5 focus:outline-[#3944F7]"
             type="text"

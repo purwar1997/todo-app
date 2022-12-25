@@ -20,7 +20,7 @@ function TodoList() {
     }
 
     fetchTodos();
-  });
+  }, [todos]);
 
   const deleteTodo = async todoId => {
     try {
